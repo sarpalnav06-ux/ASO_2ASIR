@@ -1,0 +1,100 @@
+Con el comando:
+
+“docker run -it -p 8080:80 – -name LAMP ubuntu:22.10 /bin/bash”
+
+2. instalar LAMP Y WORDPRESS
+
+PASO1: actualizamos la lista de paquetes del repositorio:
+
+“ apt update”
+
+Tras ello, instalamos los paquetes necesarios para instalar LAMP + Wordpress:
+
+“apt install wordpress php libapache2-mod-php mariadb-server php-mysql”
+
+Tras ello podemos lanzar el servicio Apache con el comando:
+
+“service apache2 start”
+
+
+```
+Alias /blog /usr/share/wordpress
+<Directory /usr/share/wordpress>
+Options FollowSymLinks
+AllowOverride Limit Options FileInfo
+DirectoryIndex index.php
+Order allow,deny
+Allow from all
+</Directory>
+<Directory /usr/share/wordpress/wp-content>
+Options FollowSymLinks
+Order allow,deny
+Allow from all
+</Directory>
+```
+instalaremos el editor nano
+
+“apt install nano”
+
+editar archivo de texto apache
+
+```
+Creado el fichero, deberemos cargar el sitio, habilitar “URL rewriting” y recargar Apache con
+los siguientes comandos:
+“a2ensite wordpress”
+“a2ensite rewrite”
+“service apache2 restart”
+Con esto ya podemos probar con la URL http://localhost:8080/blog, aunque veremos un error
+porque aún no hemos configurado el fichero “/etc/wordpress/config-localhost.php”.
+```
+
+```
+<?php
+define('DB_NAME', 'wordpress');
+define('DB_USER', 'wordpress');
+define('DB_PASSWORD', 'MiPass-2023');
+define('DB_HOST', 'localhost');
+define('DB_COLLATE', 'utf8_general_ci');
+define('WP_CONTENT_DIR', '/usr/share/wordpress/wp-content');
+?>
+```
+1.1 **_Preparando MariaDB Server_**
+En primer lugar, deberemos poner en marcha el servicio con el comando
+“service mariadb start”
+Tras ello, deberemos ejecutar el comando para generar un password de root de MySQL Server de
+forma segura (deberemos recordarlo) y otras opciones. El comando a ejecutar es:
+“mysql_secure_installation”
+
+```
+Tras ello, accederemos a la base de datos con el cliente MySQL de la siguiente forma
+“mysql -u root -p”
+```
+```
+Tras indicar la contraseña de “root”, podremos escribir comandos para MySQL.
+Escribiremos los siguientes comandos. En primer lugar, creamos la base de
+datos “wordpress” :
+“CREATE DATABASE wordpress;”
+```
+```
+Tras ellos, creamos el usuario “wordpress” (con contraseña
+“MiPass-2023”) y le damos permisos totales en la base de datos
+“wordpress”.
+```
+```
+“CREATE USER 'wordpress'@'%' IDENTIFIED BY 'MiPass-2023';”
+“GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'%' WITH GRANT
+OPTION;”
+```
+```
+1.2 Configurando Wordpress
+Usando un editor de texto de consola, vamos a editar el fichero de configuración de Wordpress,
+“/etc/wordpress/config-localhost.php” , quedando de la forma
+```
+
+```
+al final entrar en root y poner al final del fichero lo siguientes
+```
+service apache2 start
+service mariadb start
+
+
