@@ -1,0 +1,18 @@
+# UD 04.03 - Caso practico 01 - Creando imagen Ubuntu con nano**
+
+## El primer paso es crear un archivo de texto llamado Dockerfile con lo siguiente:
+
+“FROM ubuntu “
+
+“RUN apt update && apt install -y nano && apt purge-auto-remove && apt clean && rm -rf /var/lib/apt/lists/\*” “
+CMD /bin/bash”
+
+ ## Una vez guardado el archivo en un directorio, se procede a construir la imagen: 
+“docker build -t ubuntunano ./ ”
+
+![]
+
+ ## Finalmente, se debe comprobar que la imagen se ha creado correctamente y que el editor funciona 
+“docker run -it ubuntunano”
+## por ultimo entramos en nano
+"nano"
