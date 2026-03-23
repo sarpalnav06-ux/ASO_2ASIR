@@ -1,0 +1,31 @@
+UD 04. Caso práctico
+
+02 - Creando imagencon APP ejemploDocker en Node
+
+**Paso 1: Preparación del entorno**
+
+Primero, crea un directorio para el proyecto (por ejemplo, Caso4-2) y descarga en él los archivos de la aplicación (debes tener los ficheros “package.json, yarn.lock” y las carpetas “src” y “spec”)
+
+**Paso 2: Configuración del Dockerfile**
+
+Crea un archivo llamado Dockerfile en ese mismo directorio con lo siguiente;
+
+“FROM node:12-alpine [cite: 55] WORKDIR /app [cite: 56] 
+
+COPY . . [cite: 57, 58] 
+
+RUN yarn install --production [cite: 59] CMD ["node", "src/index.js"] [cite: 60]”
+
+**Paso 3: Construcción de la imagen** Abre tu terminal y ejecuta el comando
+
+“docker build -t sampledocker ./”
+
+despues ejecuta el contenedor 
+
+“docker run -dp 3000:3000 sampledocker”
+
+**4. Verificación**
+
+Para comprobar que la aplicación está funcionando correctamente, abra un navegador web y acceda a la siguiente dirección:
+
+**URL:** http://localhost:3000
