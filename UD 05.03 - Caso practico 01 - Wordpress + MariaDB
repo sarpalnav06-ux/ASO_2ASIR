@@ -8,6 +8,7 @@
 
 ‘docker network create redwp ‘
 
+
 # Paso 2: Crearemos el contenedor de MariaDB :
 
 ‘docker run -name saramariadb --network redwp -v
